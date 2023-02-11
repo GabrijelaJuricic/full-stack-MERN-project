@@ -44,6 +44,11 @@ const App = () => {
           })}
         </tbody>
       </table>
+      <input
+        className="btn btn-primary float-end"
+        type="button"
+        value="Add New Customer"
+      />
     </div>
   );
 };

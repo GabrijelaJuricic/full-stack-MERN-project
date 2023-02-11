@@ -1,9 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { modalShowState } from "./atoms";
 import CustomersModal from "./components/CustomersModal";
 
 const App = () => {
   const [fetchedCustomers, setFetchedCustomers] = useState([]);
+  const [modalShow, setModalShow] = useRecoilState(modalShowState);
 
   // get all customers
   useEffect(() => {
@@ -11,6 +14,10 @@ const App = () => {
       setFetchedCustomers(response.data);
     });
   }, []);
+
+  const showDetailsHandler = () => {
+    setModalShow(true);
+  };
 
   return (
     <div className="container" style={{ width: 900 }}>
@@ -38,6 +45,7 @@ const App = () => {
                     className="btn btn-light float-end"
                     type="button"
                     value="Details"
+                    onClick={showDetailsHandler}
                   />
                 </td>
               </tr>
@@ -49,8 +57,16 @@ const App = () => {
         className="btn btn-primary float-end"
         type="button"
         value="Add New Customer"
+        onClick={() => {
+          setModalShow(true);
+        }}
       />
-      <CustomersModal />
+      <CustomersModal
+        show={modalShow}
+        onHide={() => {
+          setModalShow(false);
+        }}
+      />
     </div>
   );
 };

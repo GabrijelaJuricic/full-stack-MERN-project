@@ -3,7 +3,12 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useRecoilState } from "recoil";
-import { modalShowState, viewModeState, newCustomerState } from "../atoms";
+import {
+  modalShowState,
+  viewModeState,
+  newCustomerState,
+  isPriceCalculatedState,
+} from "../atoms";
 import "./CustomersModal.css";
 
 const CustomersModal = (props) => {
@@ -15,6 +20,9 @@ const CustomersModal = (props) => {
   const [viewMode, setViewMode] = useRecoilState(viewModeState);
   const [, setModalShow] = useRecoilState(modalShowState);
   const [, setNewCustomer] = useRecoilState(newCustomerState);
+  const [isPriceCalculated, setIsPriceCalculated] = useRecoilState(
+    isPriceCalculatedState
+  );
 
   // CREATE NEW CUSTOMER //
   const submitNewCustomerHandler = () => {
@@ -35,6 +43,15 @@ const CustomersModal = (props) => {
     setModalShow(false);
   };
 
+  // DETAILS //
+  const deleteCustomerHandler = () => {
+    setModalShow(false);
+  };
+  // calculate price //
+  const calculatePriceHandler = () => {
+    setIsPriceCalculated(true);
+  };
+
   return (
     <Modal
       {...props}
@@ -46,9 +63,11 @@ const CustomersModal = (props) => {
         <Modal.Title id="contained-modal-title-vcenter">
           {viewMode === "create" && "Add New Customer"}
           {viewMode === "details" && "Customer Details"}
+          {viewMode === "edit" && "Edit Customer"}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {/* CREATE view mode */}
         {viewMode === "create" && (
           <form>
             <TextField
@@ -107,13 +126,102 @@ const CustomersModal = (props) => {
                 className="btn btn-primary float-end"
                 style={{ marginRight: 5, marginLeft: 10 }}
                 onClick={submitNewCustomerHandler}
+                disabled={
+                  name === "" ||
+                  lastname === "" ||
+                  email === "" ||
+                  city === "" ||
+                  birthdate === ""
+                }
               >
                 Submit
               </button>
             </div>
           </form>
         )}
-        {viewMode === "details" && "Show customer's details"}
+        {/* DETAILS view mode */}
+        {viewMode === "details" && (
+          <>
+            <TextField
+              id="name"
+              style={{ marginTop: 15 }}
+              value={"name"}
+              fullWidth
+              label="Name"
+              disabled
+            />
+            <TextField
+              id="lastname"
+              style={{ marginTop: 30 }}
+              value={"lastname"}
+              fullWidth
+              label="Lastname"
+              disabled
+            />
+            <TextField
+              id="email"
+              style={{ marginTop: 30 }}
+              value={"email"}
+              fullWidth
+              label="Email"
+              disabled
+            />
+            <TextField
+              id="city"
+              style={{ marginTop: 30 }}
+              value={"city"}
+              fullWidth
+              label="City"
+              disabled
+            />
+            <TextField
+              id="birthdate"
+              style={{ marginTop: 30 }}
+              placeholder={"birthdate"}
+              fullWidth
+              label="Birthdate"
+              disabled
+            />
+            <div className="calculation-container">
+              {isPriceCalculated && (
+                <TextField
+                  id="calculate"
+                  style={{ marginTop: 30, width: 100 }}
+                  value={0}
+                  label="Price"
+                  disabled
+                />
+              )}
+              {!isPriceCalculated && (
+                <button
+                  type="button"
+                  className="btn btn-primary float-end"
+                  style={{ marginRight: 5, marginTop: 30 }}
+                  onClick={calculatePriceHandler}
+                >
+                  Calculate Insurance Price
+                </button>
+              )}
+            </div>
+            <div className="button-container">
+              <button
+                type="button"
+                className="btn btn-light float-end"
+                onClick={deleteCustomerHandler}
+              >
+                Delete
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary float-end"
+                style={{ marginRight: 5, marginLeft: 10 }}
+                onClick={() => setViewMode("edit")}
+              >
+                Edit
+              </button>
+            </div>
+          </>
+        )}
       </Modal.Body>
     </Modal>
   );

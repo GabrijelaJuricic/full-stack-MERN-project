@@ -1,13 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { modalShowState, viewModeState } from "./atoms";
+import { isPriceCalculatedState, modalShowState, viewModeState } from "./atoms";
 import CustomersModal from "./components/CustomersModal";
 
 const App = () => {
   const [fetchedCustomers, setFetchedCustomers] = useState([]);
   const [modalShow, setModalShow] = useRecoilState(modalShowState);
   const [, setViewMode] = useRecoilState(viewModeState);
+  const [isPriceCalculated, setIsPriceCalculated] = useRecoilState(
+    isPriceCalculatedState
+  );
 
   // get all customers
   useEffect(() => {
@@ -19,6 +22,7 @@ const App = () => {
   const showDetailsHandler = () => {
     setModalShow(true);
     setViewMode("details");
+    setIsPriceCalculated(false);
   };
 
   return (

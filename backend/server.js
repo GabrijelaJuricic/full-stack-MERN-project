@@ -98,7 +98,7 @@ customersRoutes.route("/delete/:id").delete(getCustomerById, (req, res) => {
   res.customer
     .remove()
     .then((result) => {
-      req.status(200).json(result);
+      res.status(200).json(result);
     })
     .catch((err) => {
       res.status(500).json("Customer deleted successfully");

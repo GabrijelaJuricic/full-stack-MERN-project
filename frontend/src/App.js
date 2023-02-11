@@ -24,20 +24,24 @@ const App = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>{"name"}</td>
-            <td>{"lastname"}</td>
-            <td>{"email"}</td>
-            <td>{"city"}</td>
-            <td>{"birthdate"}</td>
-            <td>
-              <input
-                className="btn btn-light float-end"
-                type="button"
-                value="Details"
-              />
-            </td>
-          </tr>
+          {fetchedCustomers.map((customer, index) => {
+            return (
+              <tr key={index}>
+                <td>{customer.name}</td>
+                <td>{customer.lastname}</td>
+                <td>{customer.email}</td>
+                <td>{customer.city}</td>
+                <td>{customer.birthdate}</td>
+                <td>
+                  <input
+                    className="btn btn-light float-end"
+                    type="button"
+                    value="Details"
+                  />
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

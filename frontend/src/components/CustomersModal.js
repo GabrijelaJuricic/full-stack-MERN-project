@@ -1,7 +1,5 @@
-import { TextField } from "@mui/material";
-import axios from "axios";
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import axios from "axios";
 import { useRecoilState } from "recoil";
 import {
   modalShowState,
@@ -11,6 +9,8 @@ import {
   customerByIdState,
   insurancePriceState,
 } from "../atoms";
+import { Modal } from "react-bootstrap";
+import { TextField } from "@mui/material";
 import "./CustomersModal.css";
 
 const CustomersModal = (props) => {
@@ -352,7 +352,7 @@ const CustomersModal = (props) => {
                 Discard
               </button>
               <button
-                type="submit"
+                type="button"
                 className="btn btn-primary float-end"
                 style={{ marginRight: 5, marginLeft: 10 }}
                 onClick={updateCustomerHandler}

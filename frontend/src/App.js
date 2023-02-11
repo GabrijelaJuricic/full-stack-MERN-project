@@ -4,6 +4,39 @@ import { useRecoilState } from "recoil";
 import { isPriceCalculatedState, modalShowState, viewModeState } from "./atoms";
 import CustomersModal from "./components/CustomersModal";
 
+const SingleCustomer = (props) => {
+  const [, setModalShow] = useRecoilState(modalShowState);
+  const [, setViewMode] = useRecoilState(viewModeState);
+  const [isPriceCalculated, setIsPriceCalculated] = useRecoilState(
+    isPriceCalculatedState
+  );
+
+  const showDetailsHandler = () => {
+    setModalShow(true);
+    setViewMode("details");
+    setIsPriceCalculated(false);
+
+    console.log(props.customer._id);
+  };
+  return (
+    <tr>
+      <td>{props.customer.name}</td>
+      <td>{props.customer.lastname}</td>
+      <td>{props.customer.email}</td>
+      <td>{props.customer.city}</td>
+      <td>{props.customer.birthdate}</td>
+      <td>
+        <input
+          className="btn btn-light float-end"
+          type="button"
+          value="Details"
+          onClick={showDetailsHandler}
+        />
+      </td>
+    </tr>
+  );
+};
+
 const App = () => {
   const [fetchedCustomers, setFetchedCustomers] = useState([]);
   const [modalShow, setModalShow] = useRecoilState(modalShowState);
@@ -19,10 +52,11 @@ const App = () => {
     });
   }, []);
 
-  const showDetailsHandler = () => {
-    setModalShow(true);
-    setViewMode("details");
-    setIsPriceCalculated(false);
+  // function to display customer list
+  const customerList = () => {
+    return fetchedCustomers.map((customer, index) => {
+      return <SingleCustomer customer={customer} key={index} />;
+    });
   };
 
   return (
@@ -37,27 +71,7 @@ const App = () => {
             <th>Birthdate</th>
           </tr>
         </thead>
-        <tbody>
-          {fetchedCustomers.map((customer, index) => {
-            return (
-              <tr key={index}>
-                <td>{customer.name}</td>
-                <td>{customer.lastname}</td>
-                <td>{customer.email}</td>
-                <td>{customer.city}</td>
-                <td>{customer.birthdate}</td>
-                <td>
-                  <input
-                    className="btn btn-light float-end"
-                    type="button"
-                    value="Details"
-                    onClick={showDetailsHandler}
-                  />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
+        <tbody>{customerList()}</tbody>
       </table>
       <input
         className="btn btn-primary float-end"

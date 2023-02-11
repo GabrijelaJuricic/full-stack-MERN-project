@@ -1,8 +1,9 @@
 import { TextField } from "@mui/material";
+import axios from "axios";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useRecoilState } from "recoil";
-import { modalShowState, viewModeState } from "../atoms";
+import { modalShowState, viewModeState, newCustomerState } from "../atoms";
 import "./CustomersModal.css";
 
 const CustomersModal = (props) => {
@@ -13,6 +14,7 @@ const CustomersModal = (props) => {
   const [birthdate, setBirthdate] = useState("");
   const [viewMode, setViewMode] = useRecoilState(viewModeState);
   const [, setModalShow] = useRecoilState(modalShowState);
+  const [, setNewCustomer] = useRecoilState(newCustomerState);
 
   // CREATE NEW CUSTOMER //
   const submitNewCustomerHandler = () => {
@@ -23,7 +25,12 @@ const CustomersModal = (props) => {
       city: city,
       birthdate: birthdate,
     };
-    console.log(currentCustomer);
+    axios
+      .post("http://localhost:4000/customers/create", currentCustomer)
+      .then((result) => {
+        setNewCustomer(result.data);
+      })
+      .catch((error) => console.log(error));
 
     setModalShow(false);
   };

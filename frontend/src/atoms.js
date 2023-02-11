@@ -8,3 +8,7 @@ export const viewModeState = atom({
   key: "viewModeState",
   default: "",
 });
+export const newCustomerState = atom({
+  key: "newCustomerState",
+  default: {},
+});

@@ -8,6 +8,7 @@ import {
   isPriceCalculatedState,
   customerByIdState,
   insurancePriceState,
+  deleteCustomerState,
 } from "../atoms";
 import { Modal } from "react-bootstrap";
 import { TextField } from "@mui/material";
@@ -27,9 +28,8 @@ const CustomersModal = (props) => {
   );
   const [insurancePrice, setInsurancePrice] =
     useRecoilState(insurancePriceState);
-
   const [customerById, setCustomerById] = useRecoilState(customerByIdState);
-
+  const [, setDeleteCustomer] = useRecoilState(deleteCustomerState);
   const id = customerById._id;
 
   // CREATE NEW CUSTOMER //
@@ -49,6 +49,11 @@ const CustomersModal = (props) => {
       .catch((error) => console.log(error));
 
     setModalShow(false);
+    setName("");
+    setLastname("");
+    setEmail("");
+    setCity("");
+    setBirthdate("");
   };
 
   // DETAILS //
@@ -56,7 +61,7 @@ const CustomersModal = (props) => {
     axios
       .delete(`http://localhost:4000/customers/delete/${id}`)
       .then((response) => {
-        console.log(response.data);
+        setDeleteCustomer(response.data);
       })
       .catch(() => {
         console.log("nonoooo");
@@ -151,7 +156,7 @@ const CustomersModal = (props) => {
                 Cancel
               </button>
               <button
-                type="submit"
+                type="button"
                 className="btn btn-primary float-end"
                 style={{ marginRight: 5, marginLeft: 10 }}
                 onClick={submitNewCustomerHandler}

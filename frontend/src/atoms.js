@@ -24,3 +24,7 @@ export const insurancePriceState = atom({
   key: "insurancePriceState",
   default: 0,
 });
+export const deleteCustomerState = atom({
+  key: "deleteCustomerState",
+  default: [],
+});

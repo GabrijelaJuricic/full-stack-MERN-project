@@ -3,6 +3,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import axios from "axios";
 import {
   customerByIdState,
+  deleteCustomerState,
   isPriceCalculatedState,
   modalShowState,
   newCustomerState,
@@ -51,15 +52,15 @@ const App = () => {
   const [modalShow, setModalShow] = useRecoilState(modalShowState);
   const [fetchedCustomers, setFetchedCustomers] = useState([]);
   const [, setViewMode] = useRecoilState(viewModeState);
-  const customerById = useRecoilValue(customerByIdState);
   const newCustomer = useRecoilValue(newCustomerState);
+  const deleteCustomer = useRecoilValue(deleteCustomerState);
 
   // get all customers
   useEffect(() => {
     axios.get("http://localhost:4000/customers").then((response) => {
       setFetchedCustomers(response.data);
     });
-  }, [newCustomer, customerById]);
+  }, [newCustomer, deleteCustomer]);
 
   // function to display customer list
   const customerList = () => {

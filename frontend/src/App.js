@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { modalShowState } from "./atoms";
+import { modalShowState, viewModeState } from "./atoms";
 import CustomersModal from "./components/CustomersModal";
 
 const App = () => {
   const [fetchedCustomers, setFetchedCustomers] = useState([]);
   const [modalShow, setModalShow] = useRecoilState(modalShowState);
+  const [, setViewMode] = useRecoilState(viewModeState);
 
   // get all customers
   useEffect(() => {
@@ -17,6 +18,7 @@ const App = () => {
 
   const showDetailsHandler = () => {
     setModalShow(true);
+    setViewMode("details");
   };
 
   return (
@@ -65,6 +67,7 @@ const App = () => {
         show={modalShow}
         onHide={() => {
           setModalShow(false);
+          setViewMode("create");
         }}
       />
     </div>

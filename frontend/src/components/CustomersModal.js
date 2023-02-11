@@ -67,6 +67,12 @@ const CustomersModal = (props) => {
 
   // EDIT //
   const updateCustomerHandler = () => {
+    axios
+      .patch(`http://localhost:4000/customers/edit/${id}`, customerById)
+      .then((customer) => {
+        setCustomerById(customer.data);
+      });
+
     setModalShow(false);
   };
 
@@ -252,6 +258,12 @@ const CustomersModal = (props) => {
               id="name"
               style={{ marginTop: 15 }}
               value={customerById.name}
+              onChange={(e) =>
+                setCustomerById({
+                  ...customerById,
+                  name: e.target.value,
+                })
+              }
               fullWidth
               label="Name"
               placeholder="Enter your name"
@@ -260,6 +272,12 @@ const CustomersModal = (props) => {
               id="lastname"
               style={{ marginTop: 30 }}
               value={customerById.lastname}
+              onChange={(e) =>
+                setCustomerById({
+                  ...customerById,
+                  lastname: e.target.value,
+                })
+              }
               fullWidth
               label="Lastname"
               placeholder="Enter your lastname"
@@ -268,6 +286,12 @@ const CustomersModal = (props) => {
               id="email"
               style={{ marginTop: 30 }}
               value={customerById.email}
+              onChange={(e) =>
+                setCustomerById({
+                  ...customerById,
+                  email: e.target.value,
+                })
+              }
               fullWidth
               label="Email"
               placeholder="Enter your email"
@@ -276,6 +300,12 @@ const CustomersModal = (props) => {
               id="city"
               style={{ marginTop: 30 }}
               value={customerById.city}
+              onChange={(e) =>
+                setCustomerById({
+                  ...customerById,
+                  city: e.target.value,
+                })
+              }
               fullWidth
               label="City"
             />
@@ -283,6 +313,12 @@ const CustomersModal = (props) => {
               id="birthdate"
               style={{ marginTop: 30 }}
               value={customerById.birthdate}
+              onChange={(e) =>
+                setCustomerById({
+                  ...customerById,
+                  birthdate: e.target.value,
+                })
+              }
               fullWidth
               label="Birthdate"
             />

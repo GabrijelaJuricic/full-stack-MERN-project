@@ -1,4 +1,16 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 const App = () => {
+  const [fetchedCustomers, setFetchedCustomers] = useState([]);
+
+  // get all customers
+  useEffect(() => {
+    axios.get("http://localhost:4000/customers").then((response) => {
+      setFetchedCustomers(response.data);
+    });
+  }, []);
+
   return (
     <div className="container" style={{ width: 900 }}>
       <table className="table table-striped" style={{ marginTop: 20 }}>

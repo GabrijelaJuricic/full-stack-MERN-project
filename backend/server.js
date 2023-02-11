@@ -32,6 +32,19 @@ customersRoutes.route("/").get((req, res) => {
   });
 });
 
+// create customer
+customersRoutes.route("/create").post((req, res) => {
+  let customer = new Customers(req.body);
+  customer
+    .save()
+    .then(() => {
+      res.status(200).json("Customer created successfully");
+    })
+    .catch((err) => {
+      res.status(400).send("Creating new customer failed");
+    });
+});
+
 app.use("/customers", customersRoutes);
 
 app.listen(PORT, () => {

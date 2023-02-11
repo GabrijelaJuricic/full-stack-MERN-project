@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import CustomersModal from "./components/CustomersModal";
 
 const App = () => {
   const [fetchedCustomers, setFetchedCustomers] = useState([]);
@@ -49,6 +50,7 @@ const App = () => {
         type="button"
         value="Add New Customer"
       />
+      <CustomersModal />
     </div>
   );
 };

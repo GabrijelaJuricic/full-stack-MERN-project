@@ -21,6 +21,22 @@ connection.once("open", () => {
   console.log("MongoDB database connection established successfully");
 });
 
+// helper function for getting customer by id
+async function getCustomerById(req, res, next) {
+  let customer;
+  try {
+    customer = await Customers.findById(req.params.id);
+    if (customer == null) {
+      return res.status(404).json({ message: "Cannot find customer" });
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+
+  res.customer = customer;
+  next();
+}
+
 // get all customers
 customersRoutes.route("/").get((req, res) => {
   Customers.find((err, customers) => {
@@ -42,6 +58,38 @@ customersRoutes.route("/create").post((req, res) => {
     })
     .catch((err) => {
       res.status(400).send("Creating new customer failed");
+    });
+});
+
+// get customer by id
+customersRoutes.route("/details/:id").get(getCustomerById, (req, res) => {
+  res.json(res.customer);
+});
+
+// update customer
+customersRoutes.route("/edit/:id").patch(getCustomerById, (req, res) => {
+  if (req.body.name !== null) {
+    res.customer.name = req.body.name;
+  }
+  if (req.body.lastname !== null) {
+    res.customer.lastname = req.body.lastname;
+  }
+  if (req.body.email !== null) {
+    res.customer.email = req.body.email;
+  }
+  if (req.body.city !== null) {
+    res.customer.city = req.body.city;
+  }
+  if (req.body.birthdate !== null) {
+    res.customer.birthdate = req.body.birthdate;
+  }
+  res.customer
+    .save()
+    .then((todo) => {
+      res.json("Customer updated successfully");
+    })
+    .catch((err) => {
+      res.status(400).send("Update not possible");
     });
 });
 

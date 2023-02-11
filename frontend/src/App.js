@@ -1,7 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { isPriceCalculatedState, modalShowState, viewModeState } from "./atoms";
+import {
+  customerByIdState,
+  isPriceCalculatedState,
+  modalShowState,
+  viewModeState,
+} from "./atoms";
 import CustomersModal from "./components/CustomersModal";
 
 const SingleCustomer = (props) => {
@@ -10,13 +15,19 @@ const SingleCustomer = (props) => {
   const [isPriceCalculated, setIsPriceCalculated] = useRecoilState(
     isPriceCalculatedState
   );
+  const [, setCustomerById] = useRecoilState(customerByIdState);
 
   const showDetailsHandler = () => {
     setModalShow(true);
     setViewMode("details");
     setIsPriceCalculated(false);
 
-    console.log(props.customer._id);
+    // get customer by id
+    axios
+      .get(`http://localhost:4000/customers/details/${props.customer._id}`)
+      .then((customer) => {
+        setCustomerById(customer.data);
+      });
   };
   return (
     <tr>

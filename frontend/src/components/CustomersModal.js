@@ -8,6 +8,7 @@ import {
   viewModeState,
   newCustomerState,
   isPriceCalculatedState,
+  customerByIdState,
 } from "../atoms";
 import "./CustomersModal.css";
 
@@ -23,6 +24,7 @@ const CustomersModal = (props) => {
   const [isPriceCalculated, setIsPriceCalculated] = useRecoilState(
     isPriceCalculatedState
   );
+  const [customerById, setCustomerById] = useRecoilState(customerByIdState);
 
   // CREATE NEW CUSTOMER //
   const submitNewCustomerHandler = () => {
@@ -145,7 +147,7 @@ const CustomersModal = (props) => {
             <TextField
               id="name"
               style={{ marginTop: 15 }}
-              value={"name"}
+              value={customerById.name}
               fullWidth
               label="Name"
               disabled
@@ -153,7 +155,7 @@ const CustomersModal = (props) => {
             <TextField
               id="lastname"
               style={{ marginTop: 30 }}
-              value={"lastname"}
+              value={customerById.lastname}
               fullWidth
               label="Lastname"
               disabled
@@ -161,7 +163,7 @@ const CustomersModal = (props) => {
             <TextField
               id="email"
               style={{ marginTop: 30 }}
-              value={"email"}
+              value={customerById.email}
               fullWidth
               label="Email"
               disabled
@@ -169,7 +171,7 @@ const CustomersModal = (props) => {
             <TextField
               id="city"
               style={{ marginTop: 30 }}
-              value={"city"}
+              value={customerById.city}
               fullWidth
               label="City"
               disabled
@@ -177,7 +179,7 @@ const CustomersModal = (props) => {
             <TextField
               id="birthdate"
               style={{ marginTop: 30 }}
-              placeholder={"birthdate"}
+              placeholder={customerById.birthdate}
               fullWidth
               label="Birthdate"
               disabled

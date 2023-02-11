@@ -16,3 +16,7 @@ export const isPriceCalculatedState = atom({
   key: "isPriceCalculatedState",
   default: false,
 });
+export const customerByIdState = atom({
+  key: "customerByIdState",
+  default: [],
+});

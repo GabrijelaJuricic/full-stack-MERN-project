@@ -65,6 +65,11 @@ const CustomersModal = (props) => {
     setModalShow(false);
   };
 
+  // EDIT //
+  const updateCustomerHandler = () => {
+    setModalShow(false);
+  };
+
   // calculate price //
   const calculatePriceHandler = () => {
     setIsPriceCalculated(true);
@@ -239,6 +244,87 @@ const CustomersModal = (props) => {
               </button>
             </div>
           </>
+        )}
+        {/* EDIT view mode */}
+        {viewMode === "edit" && (
+          <form>
+            <TextField
+              id="name"
+              style={{ marginTop: 15 }}
+              value={customerById.name}
+              fullWidth
+              label="Name"
+              placeholder="Enter your name"
+            />
+            <TextField
+              id="lastname"
+              style={{ marginTop: 30 }}
+              value={customerById.lastname}
+              fullWidth
+              label="Lastname"
+              placeholder="Enter your lastname"
+            />
+            <TextField
+              id="email"
+              style={{ marginTop: 30 }}
+              value={customerById.email}
+              fullWidth
+              label="Email"
+              placeholder="Enter your email"
+            />
+            <TextField
+              id="city"
+              style={{ marginTop: 30 }}
+              value={customerById.city}
+              fullWidth
+              label="City"
+            />
+            <TextField
+              id="birthdate"
+              style={{ marginTop: 30 }}
+              value={customerById.birthdate}
+              fullWidth
+              label="Birthdate"
+            />
+            <div className="calculation-container">
+              {isPriceCalculated && (
+                <TextField
+                  id="calculate"
+                  style={{ marginTop: 30, width: 100 }}
+                  value={insurancePrice}
+                  label="Price"
+                  disabled
+                />
+              )}
+              {!isPriceCalculated && (
+                <button
+                  type="button"
+                  className="btn btn-primary float-end"
+                  style={{ marginRight: 5, marginTop: 30 }}
+                  onClick={calculatePriceHandler}
+                >
+                  Calculate Insurance Price
+                </button>
+              )}
+            </div>
+            <div className="button-container">
+              <button
+                type="button"
+                className="btn btn-light float-end"
+                onClick={() => setModalShow(false)}
+              >
+                Discard
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary float-end"
+                style={{ marginRight: 5, marginLeft: 10 }}
+                onClick={updateCustomerHandler}
+              >
+                Save
+              </button>
+            </div>
+          </form>
         )}
       </Modal.Body>
     </Modal>

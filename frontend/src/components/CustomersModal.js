@@ -9,6 +9,7 @@ import {
   newCustomerState,
   isPriceCalculatedState,
   customerByIdState,
+  insurancePriceState,
 } from "../atoms";
 import "./CustomersModal.css";
 
@@ -24,7 +25,12 @@ const CustomersModal = (props) => {
   const [isPriceCalculated, setIsPriceCalculated] = useRecoilState(
     isPriceCalculatedState
   );
+  const [insurancePrice, setInsurancePrice] =
+    useRecoilState(insurancePriceState);
+
   const [customerById, setCustomerById] = useRecoilState(customerByIdState);
+
+  const id = customerById._id;
 
   // CREATE NEW CUSTOMER //
   const submitNewCustomerHandler = () => {
@@ -47,8 +53,18 @@ const CustomersModal = (props) => {
 
   // DETAILS //
   const deleteCustomerHandler = () => {
+    axios
+      .delete(`http://localhost:4000/customers/delete/${id}`)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch(() => {
+        console.log("nonoooo");
+      });
+
     setModalShow(false);
   };
+
   // calculate price //
   const calculatePriceHandler = () => {
     setIsPriceCalculated(true);
@@ -179,7 +195,7 @@ const CustomersModal = (props) => {
             <TextField
               id="birthdate"
               style={{ marginTop: 30 }}
-              placeholder={customerById.birthdate}
+              value={customerById.birthdate}
               fullWidth
               label="Birthdate"
               disabled
@@ -189,7 +205,7 @@ const CustomersModal = (props) => {
                 <TextField
                   id="calculate"
                   style={{ marginTop: 30, width: 100 }}
-                  value={0}
+                  value={insurancePrice}
                   label="Price"
                   disabled
                 />

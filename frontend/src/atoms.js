@@ -20,3 +20,7 @@ export const customerByIdState = atom({
   key: "customerByIdState",
   default: [],
 });
+export const insurancePriceState = atom({
+  key: "insurancePriceState",
+  default: 0,
+});

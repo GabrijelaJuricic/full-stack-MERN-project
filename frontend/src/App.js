@@ -1,10 +1,11 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import axios from "axios";
 import {
   customerByIdState,
   isPriceCalculatedState,
   modalShowState,
+  newCustomerState,
   viewModeState,
 } from "./atoms";
 import CustomersModal from "./components/CustomersModal";
@@ -12,9 +13,7 @@ import CustomersModal from "./components/CustomersModal";
 const SingleCustomer = (props) => {
   const [, setModalShow] = useRecoilState(modalShowState);
   const [, setViewMode] = useRecoilState(viewModeState);
-  const [isPriceCalculated, setIsPriceCalculated] = useRecoilState(
-    isPriceCalculatedState
-  );
+  const [, setIsPriceCalculated] = useRecoilState(isPriceCalculatedState);
   const [, setCustomerById] = useRecoilState(customerByIdState);
 
   const showDetailsHandler = () => {
@@ -49,19 +48,18 @@ const SingleCustomer = (props) => {
 };
 
 const App = () => {
-  const [fetchedCustomers, setFetchedCustomers] = useState([]);
   const [modalShow, setModalShow] = useRecoilState(modalShowState);
+  const [fetchedCustomers, setFetchedCustomers] = useState([]);
   const [, setViewMode] = useRecoilState(viewModeState);
-  const [isPriceCalculated, setIsPriceCalculated] = useRecoilState(
-    isPriceCalculatedState
-  );
+  const customerById = useRecoilValue(customerByIdState);
+  const newCustomer = useRecoilValue(newCustomerState);
 
   // get all customers
   useEffect(() => {
     axios.get("http://localhost:4000/customers").then((response) => {
       setFetchedCustomers(response.data);
     });
-  }, []);
+  }, [newCustomer, customerById]);
 
   // function to display customer list
   const customerList = () => {
@@ -90,13 +88,13 @@ const App = () => {
         value="Add New Customer"
         onClick={() => {
           setModalShow(true);
+          setViewMode("create");
         }}
       />
       <CustomersModal
         show={modalShow}
         onHide={() => {
           setModalShow(false);
-          setViewMode("create");
         }}
       />
     </div>

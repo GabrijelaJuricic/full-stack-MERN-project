@@ -85,8 +85,8 @@ customersRoutes.route("/edit/:id").patch(getCustomerById, (req, res) => {
   }
   res.customer
     .save()
-    .then((todo) => {
-      res.json("Customer updated successfully");
+    .then(() => {
+      console.log(res.json("Customer updated successfully"));
     })
     .catch((err) => {
       res.status(400).send("Update not possible");

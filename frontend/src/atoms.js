@@ -28,3 +28,7 @@ export const insurancePriceState = atom({
   key: "insurancePriceState",
   default: 0,
 });
+export const customerBirthdateState = atom({
+  key: "customerBirthdateState",
+  default: null,
+});

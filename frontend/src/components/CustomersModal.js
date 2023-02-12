@@ -9,9 +9,11 @@ import {
   insurancePriceState,
   deleteCustomerState,
   customerDetailsState,
+  customerBirthdateState,
 } from "../atoms";
 import { Modal } from "react-bootstrap";
 import { TextField } from "@mui/material";
+import BirthdatePicker from "./Birthdate";
 import "./CustomersModal.css";
 
 const CustomersModal = (props) => {
@@ -19,7 +21,7 @@ const CustomersModal = (props) => {
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
-  const [birthdate, setBirthdate] = useState("");
+  const [birthdate, setBirthdate] = useRecoilState(customerBirthdateState);
   const [viewMode, setViewMode] = useRecoilState(viewModeState);
   const [, setModalShow] = useRecoilState(modalShowState);
   const [, setNewCustomer] = useRecoilState(newCustomerState);
@@ -41,7 +43,7 @@ const CustomersModal = (props) => {
       lastname: lastname,
       email: email,
       city: city,
-      birthdate: birthdate,
+      birthdate: birthdate.format("DD/MM/YYYY"),
     };
     axios
       .post("http://localhost:4000/customers/create", currentCustomer)
@@ -55,7 +57,7 @@ const CustomersModal = (props) => {
     setLastname("");
     setEmail("");
     setCity("");
-    setBirthdate("");
+    setBirthdate(null);
   };
 
   // DETAILS //
@@ -74,8 +76,18 @@ const CustomersModal = (props) => {
 
   // EDIT //
   const updateCustomerHandler = () => {
+    let updatedSingleCustomer = {
+      name: customerDetails.name,
+      lastname: customerDetails.lastname,
+      email: customerDetails.email,
+      city: customerDetails.city,
+      birthdate: customerDetails.birthdate,
+    };
     axios
-      .patch(`http://localhost:4000/customers/edit/${id}`, customerDetails)
+      .patch(
+        `http://localhost:4000/customers/edit/${id}`,
+        updatedSingleCustomer
+      )
       .then((customer) => {
         setCustomerDetails(customer.data);
       });
@@ -141,14 +153,7 @@ const CustomersModal = (props) => {
               fullWidth
               label="City"
             />
-            <TextField
-              id="birthdate"
-              style={{ marginTop: 30 }}
-              value={birthdate}
-              onChange={(e) => setBirthdate(e.target.value)}
-              fullWidth
-              label="Birthdate"
-            />
+            <BirthdatePicker />
             <div className="button-container">
               <button
                 type="button"
@@ -167,7 +172,7 @@ const CustomersModal = (props) => {
                   lastname === "" ||
                   email === "" ||
                   city === "" ||
-                  birthdate === ""
+                  birthdate === null
                 }
               >
                 Submit
@@ -318,19 +323,7 @@ const CustomersModal = (props) => {
               fullWidth
               label="City"
             />
-            <TextField
-              id="birthdate"
-              style={{ marginTop: 30 }}
-              value={customerDetails.birthdate}
-              onChange={(e) =>
-                setCustomerDetails({
-                  ...customerDetails,
-                  birthdate: e.target.value,
-                })
-              }
-              fullWidth
-              label="Birthdate"
-            />
+            <BirthdatePicker />
             <div className="calculation-container">
               {isPriceCalculated && (
                 <TextField

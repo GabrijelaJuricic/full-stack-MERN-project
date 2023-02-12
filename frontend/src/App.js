@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import axios from "axios";
 import {
-  customerByIdState,
+  customerDetailsState,
   deleteCustomerState,
   isPriceCalculatedState,
   modalShowState,
@@ -15,7 +15,7 @@ const SingleCustomer = (props) => {
   const [, setModalShow] = useRecoilState(modalShowState);
   const [, setViewMode] = useRecoilState(viewModeState);
   const [, setIsPriceCalculated] = useRecoilState(isPriceCalculatedState);
-  const [, setCustomerById] = useRecoilState(customerByIdState);
+  const [, setCustomerDetails] = useRecoilState(customerDetailsState);
 
   const showDetailsHandler = () => {
     setModalShow(true);
@@ -26,7 +26,7 @@ const SingleCustomer = (props) => {
     axios
       .get(`http://localhost:4000/customers/details/${props.customer._id}`)
       .then((customer) => {
-        setCustomerById(customer.data);
+        setCustomerDetails(customer.data);
       });
   };
   return (
@@ -54,13 +54,14 @@ const App = () => {
   const [, setViewMode] = useRecoilState(viewModeState);
   const newCustomer = useRecoilValue(newCustomerState);
   const deleteCustomer = useRecoilValue(deleteCustomerState);
+  const customerDetails = useRecoilValue(customerDetailsState);
 
   // get all customers
   useEffect(() => {
     axios.get("http://localhost:4000/customers").then((response) => {
       setFetchedCustomers(response.data);
     });
-  }, [newCustomer, deleteCustomer]);
+  }, [newCustomer, deleteCustomer, customerDetails]);
 
   // function to display customer list
   const customerList = () => {

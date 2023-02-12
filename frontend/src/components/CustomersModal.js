@@ -6,9 +6,9 @@ import {
   viewModeState,
   newCustomerState,
   isPriceCalculatedState,
-  customerByIdState,
   insurancePriceState,
   deleteCustomerState,
+  customerDetailsState,
 } from "../atoms";
 import { Modal } from "react-bootstrap";
 import { TextField } from "@mui/material";
@@ -28,9 +28,11 @@ const CustomersModal = (props) => {
   );
   const [insurancePrice, setInsurancePrice] =
     useRecoilState(insurancePriceState);
-  const [customerById, setCustomerById] = useRecoilState(customerByIdState);
+  const [customerDetails, setCustomerDetails] =
+    useRecoilState(customerDetailsState);
   const [, setDeleteCustomer] = useRecoilState(deleteCustomerState);
-  const id = customerById._id;
+
+  const id = customerDetails._id;
 
   // CREATE NEW CUSTOMER //
   const submitNewCustomerHandler = () => {
@@ -73,9 +75,9 @@ const CustomersModal = (props) => {
   // EDIT //
   const updateCustomerHandler = () => {
     axios
-      .patch(`http://localhost:4000/customers/edit/${id}`, customerById)
+      .patch(`http://localhost:4000/customers/edit/${id}`, customerDetails)
       .then((customer) => {
-        setCustomerById(customer.data);
+        setCustomerDetails(customer.data);
       });
 
     setModalShow(false);
@@ -179,7 +181,7 @@ const CustomersModal = (props) => {
             <TextField
               id="name"
               style={{ marginTop: 15 }}
-              value={customerById.name}
+              value={customerDetails.name}
               fullWidth
               label="Name"
               disabled
@@ -187,7 +189,7 @@ const CustomersModal = (props) => {
             <TextField
               id="lastname"
               style={{ marginTop: 30 }}
-              value={customerById.lastname}
+              value={customerDetails.lastname}
               fullWidth
               label="Lastname"
               disabled
@@ -195,7 +197,7 @@ const CustomersModal = (props) => {
             <TextField
               id="email"
               style={{ marginTop: 30 }}
-              value={customerById.email}
+              value={customerDetails.email}
               fullWidth
               label="Email"
               disabled
@@ -203,7 +205,7 @@ const CustomersModal = (props) => {
             <TextField
               id="city"
               style={{ marginTop: 30 }}
-              value={customerById.city}
+              value={customerDetails.city}
               fullWidth
               label="City"
               disabled
@@ -211,7 +213,7 @@ const CustomersModal = (props) => {
             <TextField
               id="birthdate"
               style={{ marginTop: 30 }}
-              value={customerById.birthdate}
+              value={customerDetails.birthdate}
               fullWidth
               label="Birthdate"
               disabled
@@ -249,7 +251,9 @@ const CustomersModal = (props) => {
                 type="button"
                 className="btn btn-primary float-end"
                 style={{ marginRight: 5, marginLeft: 10 }}
-                onClick={() => setViewMode("edit")}
+                onClick={() => {
+                  setViewMode("edit");
+                }}
               >
                 Edit
               </button>
@@ -262,10 +266,10 @@ const CustomersModal = (props) => {
             <TextField
               id="name"
               style={{ marginTop: 15 }}
-              value={customerById.name}
+              value={customerDetails.name}
               onChange={(e) =>
-                setCustomerById({
-                  ...customerById,
+                setCustomerDetails({
+                  ...customerDetails,
                   name: e.target.value,
                 })
               }
@@ -276,10 +280,10 @@ const CustomersModal = (props) => {
             <TextField
               id="lastname"
               style={{ marginTop: 30 }}
-              value={customerById.lastname}
+              value={customerDetails.lastname}
               onChange={(e) =>
-                setCustomerById({
-                  ...customerById,
+                setCustomerDetails({
+                  ...customerDetails,
                   lastname: e.target.value,
                 })
               }
@@ -290,10 +294,10 @@ const CustomersModal = (props) => {
             <TextField
               id="email"
               style={{ marginTop: 30 }}
-              value={customerById.email}
+              value={customerDetails.email}
               onChange={(e) =>
-                setCustomerById({
-                  ...customerById,
+                setCustomerDetails({
+                  ...customerDetails,
                   email: e.target.value,
                 })
               }
@@ -304,10 +308,10 @@ const CustomersModal = (props) => {
             <TextField
               id="city"
               style={{ marginTop: 30 }}
-              value={customerById.city}
+              value={customerDetails.city}
               onChange={(e) =>
-                setCustomerById({
-                  ...customerById,
+                setCustomerDetails({
+                  ...customerDetails,
                   city: e.target.value,
                 })
               }
@@ -317,10 +321,10 @@ const CustomersModal = (props) => {
             <TextField
               id="birthdate"
               style={{ marginTop: 30 }}
-              value={customerById.birthdate}
+              value={customerDetails.birthdate}
               onChange={(e) =>
-                setCustomerById({
-                  ...customerById,
+                setCustomerDetails({
+                  ...customerDetails,
                   birthdate: e.target.value,
                 })
               }

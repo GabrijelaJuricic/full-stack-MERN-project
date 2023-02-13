@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const { default: mongoose } = require("mongoose");
 const customersRoutes = express.Router();
+const dayjs = require("dayjs");
+
 const PORT = 4000;
 
 let Customers = require("./customers-model");
@@ -109,9 +111,17 @@ customersRoutes.route("/delete/:id").delete(getCustomerById, (req, res) => {
 customersRoutes.route("/calculate/:id").get(getCustomerById, (req, res) => {
   const city = res.customer._doc.city;
   const birthdate = res.customer._doc.birthdate;
+  const age = customersAge(birthdate);
 
   res.status(200).json(city);
 });
+
+const customersAge = (birthdate) => {
+  const currentDate = dayjs();
+  birthdate = dayjs(birthdate);
+  const age = currentDate.diff(birthdate, "year", true);
+  return age;
+};
 
 app.use("/customers", customersRoutes);
 

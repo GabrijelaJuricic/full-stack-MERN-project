@@ -6,6 +6,7 @@ const { default: mongoose } = require("mongoose");
 const customersRoutes = express.Router();
 const dayjs = require("dayjs");
 const basePriceJson = require("./data/base-price.json");
+const discountJson = require("./data/discount.json");
 
 const PORT = 4000;
 
@@ -115,8 +116,9 @@ customersRoutes.route("/calculate/:id").get(getCustomerById, (req, res) => {
   const age = customersAge(birthdate);
 
   const basePrice = calculateBasePrice(city);
+  const discount = calculateDiscount(age);
 
-  res.status(200).json(basePrice);
+  res.status(200).json(discount);
 });
 
 const customersAge = (birthdate) => {
@@ -137,6 +139,17 @@ const calculateBasePrice = (city) => {
       if (!foundCity) {
         result = element.amount;
       }
+    }
+  });
+  return result;
+};
+
+const calculateDiscount = (age) => {
+  let result = 0;
+  discountJson.map((element) => {
+    agePeriods = element.age.split("-");
+    if (age >= parseInt(agePeriods[0]) && age < parseInt(agePeriods[1])) {
+      result = element.discount;
     }
   });
   return result;

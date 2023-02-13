@@ -12,10 +12,6 @@ export const newCustomerState = atom({
   key: "newCustomerState",
   default: {},
 });
-export const isPriceCalculatedState = atom({
-  key: "isPriceCalculatedState",
-  default: false,
-});
 export const customerDetailsState = atom({
   key: "customerDetailsState",
   default: [],
@@ -31,6 +27,10 @@ export const updatedCustomerState = atom({
 export const deleteCustomerState = atom({
   key: "deleteCustomerState",
   default: [],
+});
+export const isPriceCalculatedState = atom({
+  key: "isPriceCalculatedState",
+  default: false,
 });
 export const insurancePriceState = atom({
   key: "insurancePriceState",

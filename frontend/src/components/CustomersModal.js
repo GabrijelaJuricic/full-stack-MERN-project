@@ -113,6 +113,11 @@ const CustomersModal = (props) => {
 
   // calculate price //
   const calculatePriceHandler = () => {
+    axios
+      .get(`http://localhost:4000/customers/calculate/${id}`)
+      .then((price) => {
+        setInsurancePrice(`${price.data} €`);
+      });
     setIsPriceCalculated(true);
   };
 

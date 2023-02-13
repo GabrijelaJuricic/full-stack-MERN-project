@@ -20,6 +20,14 @@ export const customerDetailsState = atom({
   key: "customerDetailsState",
   default: [],
 });
+export const editCustomersDetailsState = atom({
+  key: "editCustomersDetailsState",
+  default: [],
+});
+export const updatedCustomerState = atom({
+  key: "updatedCustomerState",
+  default: {},
+});
 export const deleteCustomerState = atom({
   key: "deleteCustomerState",
   default: [],

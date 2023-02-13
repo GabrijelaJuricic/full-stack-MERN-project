@@ -6,6 +6,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import {
   customerBirthdateState,
   customerDetailsState,
+  editCustomersDetailsState,
   viewModeState,
 } from "../atoms";
 import { TextField } from "@mui/material";
@@ -14,13 +15,16 @@ const BirthdatePicker = () => {
   const [birthdate, setBirthdate] = useRecoilState(customerBirthdateState);
   const [customerDetails, setCustomerDetails] =
     useRecoilState(customerDetailsState);
+  const [editCustomersDetails, setEditCustomersDetails] = useRecoilState(
+    editCustomersDetailsState
+  );
   const viewMode = useRecoilValue(viewModeState);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       {viewMode === "create" && (
         <DatePicker
-          inputFormat="DD/MM/YYYY"
+          inputFormat="MM/DD/YYYY"
           label="Birthdate"
           value={birthdate}
           onChange={(newValue) => {
@@ -33,12 +37,12 @@ const BirthdatePicker = () => {
       )}
       {viewMode === "edit" && (
         <DatePicker
-          inputFormat="DD/MM/YYYY"
+          inputFormat="MM/DD/YYYY"
           label="Birthdate"
-          value={customerDetails.birthdate}
+          value={editCustomersDetails.birthdate}
           onChange={(newValue) =>
-            setCustomerDetails({
-              ...customerDetails,
+            setEditCustomersDetails({
+              ...editCustomersDetails,
               birthdate: newValue,
             })
           }

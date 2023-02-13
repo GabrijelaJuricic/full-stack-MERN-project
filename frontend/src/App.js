@@ -7,6 +7,7 @@ import {
   isPriceCalculatedState,
   modalShowState,
   newCustomerState,
+  updatedCustomerState,
   viewModeState,
 } from "./atoms";
 import CustomersModal from "./components/CustomersModal";
@@ -55,13 +56,14 @@ const App = () => {
   const newCustomer = useRecoilValue(newCustomerState);
   const deleteCustomer = useRecoilValue(deleteCustomerState);
   const customerDetails = useRecoilValue(customerDetailsState);
+  const updatedCustomer = useRecoilValue(updatedCustomerState);
 
   // get all customers
   useEffect(() => {
     axios.get("http://localhost:4000/customers").then((response) => {
       setFetchedCustomers(response.data);
     });
-  }, [newCustomer, deleteCustomer, customerDetails]);
+  }, [newCustomer, deleteCustomer, updatedCustomer]);
 
   // function to display customer list
   const customerList = () => {

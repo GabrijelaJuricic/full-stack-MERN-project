@@ -105,6 +105,14 @@ customersRoutes.route("/delete/:id").delete(getCustomerById, (req, res) => {
     });
 });
 
+// calculate insurance price
+customersRoutes.route("/calculate/:id").get(getCustomerById, (req, res) => {
+  const city = res.customer._doc.city;
+  const birthdate = res.customer._doc.birthdate;
+
+  res.status(200).json(city);
+});
+
 app.use("/customers", customersRoutes);
 
 app.listen(PORT, () => {

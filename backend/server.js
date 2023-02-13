@@ -117,8 +117,9 @@ customersRoutes.route("/calculate/:id").get(getCustomerById, (req, res) => {
 
   const basePrice = calculateBasePrice(city);
   const discount = calculateDiscount(age);
+  const totalPrice = (basePrice * (100 - discount)) / 100;
 
-  res.status(200).json(discount);
+  res.status(200).json(totalPrice);
 });
 
 const customersAge = (birthdate) => {

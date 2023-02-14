@@ -1,30 +1,25 @@
-import * as React from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { TextField } from "@mui/material";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   customerBirthdateState,
-  customerDetailsState,
   editCustomersDetailsState,
   viewModeState,
 } from "../atoms";
-import { TextField } from "@mui/material";
 
 const BirthdatePicker = () => {
   const [birthdate, setBirthdate] = useRecoilState(customerBirthdateState);
-  const [customerDetails, setCustomerDetails] =
-    useRecoilState(customerDetailsState);
   const [editCustomersDetails, setEditCustomersDetails] = useRecoilState(
     editCustomersDetailsState
   );
   const viewMode = useRecoilValue(viewModeState);
-
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       {viewMode === "create" && (
         <DatePicker
-          inputFormat="MM/DD/YYYY"
+          inputFormat="DD.MM.YYYY."
           label="Birthdate"
           value={birthdate}
           onChange={(newValue) => {
@@ -37,7 +32,7 @@ const BirthdatePicker = () => {
       )}
       {viewMode === "edit" && (
         <DatePicker
-          inputFormat="MM/DD/YYYY"
+          inputFormat="DD.MM.YYYY."
           label="Birthdate"
           value={editCustomersDetails.birthdate}
           onChange={(newValue) =>

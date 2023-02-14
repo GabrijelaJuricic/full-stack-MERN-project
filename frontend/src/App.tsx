@@ -11,8 +11,11 @@ import {
   viewModeState,
 } from "./atoms";
 import CustomersModal from "./components/CustomersModal";
+import { Customer } from "./types";
 
-const SingleCustomer = (props) => {
+const SingleCustomer: React.FC<{ customer: Customer; key: number }> = (
+  props
+) => {
   const [, setModalShow] = useRecoilState(modalShowState);
   const [, setViewMode] = useRecoilState(viewModeState);
   const [, setIsPriceCalculated] = useRecoilState(isPriceCalculatedState);
@@ -55,7 +58,6 @@ const App = () => {
   const [, setViewMode] = useRecoilState(viewModeState);
   const newCustomer = useRecoilValue(newCustomerState);
   const deleteCustomer = useRecoilValue(deleteCustomerState);
-  const customerDetails = useRecoilValue(customerDetailsState);
   const updatedCustomer = useRecoilValue(updatedCustomerState);
 
   // get all customers

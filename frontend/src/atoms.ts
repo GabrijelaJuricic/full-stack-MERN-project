@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { Customer } from "./types";
 
 export const modalShowState = atom({
   key: "modalShowState",
@@ -12,13 +13,17 @@ export const newCustomerState = atom({
   key: "newCustomerState",
   default: {},
 });
+export const customerBirthdateState = atom<Date | null>({
+  key: "customerBirthdateState",
+  default: null,
+});
 export const customerDetailsState = atom({
   key: "customerDetailsState",
-  default: [],
+  default: {} as Customer,
 });
 export const editCustomersDetailsState = atom({
   key: "editCustomersDetailsState",
-  default: [],
+  default: {} as Customer,
 });
 export const updatedCustomerState = atom({
   key: "updatedCustomerState",
@@ -34,9 +39,5 @@ export const isPriceCalculatedState = atom({
 });
 export const insurancePriceState = atom({
   key: "insurancePriceState",
-  default: 0,
-});
-export const customerBirthdateState = atom({
-  key: "customerBirthdateState",
-  default: null,
+  default: "",
 });

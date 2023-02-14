@@ -17,8 +17,11 @@ import { Modal } from "react-bootstrap";
 import { TextField } from "@mui/material";
 import BirthdatePicker from "./Birthdate";
 import "./CustomersModal.css";
+import { Price } from "../types";
 
-const CustomersModal = (props) => {
+const CustomersModal: React.FC<{ show: boolean; onHide: () => void }> = (
+  props
+) => {
   const [name, setName] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -38,8 +41,7 @@ const CustomersModal = (props) => {
   const [editCustomersDetails, setEditCustomersDetails] = useRecoilState(
     editCustomersDetailsState
   );
-  const [updatedCustomer, setUpdatedCustomer] =
-    useRecoilState(updatedCustomerState);
+  const [, setUpdatedCustomer] = useRecoilState(updatedCustomerState);
 
   const id = customerDetails._id;
 
@@ -50,7 +52,7 @@ const CustomersModal = (props) => {
       lastname: lastname,
       email: email,
       city: city,
-      birthdate: birthdate.format("MM/DD/YYYY"),
+      birthdate: birthdate,
     };
     axios
       .post("http://localhost:4000/customers/create", currentCustomer)
@@ -96,7 +98,7 @@ const CustomersModal = (props) => {
       lastname: editCustomersDetails.lastname,
       email: editCustomersDetails.email,
       city: editCustomersDetails.city,
-      birthdate: editCustomersDetails.birthdate.format("MM/DD/YYYY"),
+      birthdate: editCustomersDetails.birthdate,
     };
     setUpdatedCustomer(updatedSingleCustomer);
     axios
@@ -114,9 +116,9 @@ const CustomersModal = (props) => {
   // calculate price //
   const calculatePriceHandler = () => {
     axios
-      .get(`http://localhost:4000/customers/calculate/${id}`)
-      .then((price) => {
-        setInsurancePrice(`${price.data} €`);
+      .get<Price[]>(`http://localhost:4000/customers/calculate/${id}`)
+      .then((response) => {
+        setInsurancePrice(`${response.data} €`);
       });
     setIsPriceCalculated(true);
   };
@@ -124,7 +126,7 @@ const CustomersModal = (props) => {
   return (
     <Modal
       {...props}
-      size="md"
+      size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >

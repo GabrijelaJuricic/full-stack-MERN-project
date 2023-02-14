@@ -18,6 +18,7 @@ import { TextField } from "@mui/material";
 import BirthdatePicker from "./Birthdate";
 import "./CustomersModal.css";
 import { Price } from "../types";
+import dayjs from "dayjs";
 
 const CustomersModal: React.FC<{ show: boolean; onHide: () => void }> = (
   props
@@ -70,6 +71,8 @@ const CustomersModal: React.FC<{ show: boolean; onHide: () => void }> = (
   };
 
   // DETAILS //
+  let dateHolder = dayjs(customerDetails.birthdate).format("DD.MM.YYYY.");
+
   const deleteCustomerHandler = () => {
     axios
       .delete(`http://localhost:4000/customers/delete/${id}`)
@@ -241,7 +244,7 @@ const CustomersModal: React.FC<{ show: boolean; onHide: () => void }> = (
             <TextField
               id="birthdate"
               style={{ marginTop: 30 }}
-              value={customerDetails.birthdate}
+              value={dateHolder}
               fullWidth
               label="Birthdate"
               disabled

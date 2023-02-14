@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import axios from "axios";
+import dayjs from "dayjs";
 import {
   customerDetailsState,
   deleteCustomerState,
@@ -10,8 +11,8 @@ import {
   updatedCustomerState,
   viewModeState,
 } from "./atoms";
-import CustomersModal from "./components/CustomersModal";
 import { Customer } from "./types";
+import CustomersModal from "./components/CustomersModal";
 
 const SingleCustomer: React.FC<{ customer: Customer; key: number }> = (
   props
@@ -33,13 +34,16 @@ const SingleCustomer: React.FC<{ customer: Customer; key: number }> = (
         setCustomerDetails(customer.data);
       });
   };
+
+  let dateHolder = dayjs(props.customer.birthdate).format("DD.MM.YYYY.");
+
   return (
     <tr>
       <td>{props.customer.name}</td>
       <td>{props.customer.lastname}</td>
       <td>{props.customer.email}</td>
       <td>{props.customer.city}</td>
-      <td>{props.customer.birthdate}</td>
+      <td>{dateHolder}</td>
       <td>
         <input
           className="btn btn-light float-end"
